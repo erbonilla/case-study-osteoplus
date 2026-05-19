@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <title>Osteóplus — From medical repository to Action Dashboard | Edgar Bonilla G.</title>
+  <meta name="description" content="UX case study: a senior-friendly PWA for a Barcelona osteopathy and physiotherapy clinic. Guest-first booking, Daily Rehab Loop, WCAG 2.2 AA, bilingual ES/EN.">
+  <meta name="author" content="Edgar Bonilla G.">
+  <meta name="application-name" content="Osteóplus case study">
+  <meta name="theme-color" media="(prefers-color-scheme: light)" content="#F8FAFC">
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0F172A">
+  <link rel="icon" type="image/svg+xml" href="assets/logo-svg/favicon.svg">
+
+  <!-- Open Graph (case study links) -->
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Osteóplus — From medical repository to Action Dashboard">
+  <meta property="og:description" content="A senior-friendly PWA for a Barcelona clinic. Guest-first booking + The Loop. UX case study.">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <!-- Structured data for search engines -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "CreativeWork",
+    "name": "Osteóplus — From medical repository to Action Dashboard",
+    "headline": "From medical repository to Action Dashboard: a senior-friendly rehab PWA",
+    "author": { "@type": "Person", "name": "Edgar Bonilla G.", "jobTitle": "UI/UX Designer" },
+    "description": "A senior-friendly PWA case study for a Barcelona osteopathy and physiotherapy clinic. Covers guest-first booking, the Daily Rehab Loop, WCAG 2.2 AA accessibility, and bilingual ES/EN design.",
+    "datePublished": "2026-05-18",
+    "dateModified": "2026-05-18",
+    "inLanguage": ["en", "es"],
+    "keywords": "UX case study, healthcare UX, senior-friendly design, WCAG 2.2 AA, PWA, guest-first booking, rehab adherence, bilingual design, Barcelona",
+    "audience": { "@type": "Audience", "audienceType": "Adults 35–85, optimized for 60+" },
+    "about": [
+      { "@type": "Thing", "name": "Healthcare UX" },
+      { "@type": "Thing", "name": "Accessibility (WCAG 2.2 AA)" },
+      { "@type": "Thing", "name": "Progressive Web App" },
+      { "@type": "Thing", "name": "Clinical gamification" }
+    ]
+  }
+  </script>
+
+  <!-- Resources referenced as strings from JSX — surfaced for the bundler -->
+  <meta name="ext-resource-dependency" content="assets/logo-svg/osteoplus-logo-primary-teal.svg" data-resource-id="logoTeal" />
+  <meta name="ext-resource-dependency" content="assets/logo-svg/osteoplus-logo-teal-300.svg" data-resource-id="logoTeal300" />
+
+  <link rel="stylesheet" href="assets/colors_and_type.css">
+  <link rel="stylesheet" href="assets/case-study.css">
+
+  <!-- Lucide icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- React + Babel
+       Standalone source for bundling. The generated standalone HTML must be rebuilt
+       after changes to assets/*.jsx, assets/*.css, or assets/logo-svg/*.svg. -->
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+  <!-- Splash thumbnail (also serves as no-JS fallback) -->
+  <template id="__bundler_thumbnail" data-bg-color="#F8FAFC">
+    <svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+      <rect width="1200" height="800" fill="#F8FAFC"/>
+      <!-- Phone silhouette, centered -->
+      <g transform="translate(450,140)">
+        <rect x="0" y="0" width="300" height="520" rx="48" fill="#0F172A"/>
+        <rect x="12" y="12" width="276" height="496" rx="38" fill="#FFFFFF"/>
+        <!-- Status bar -->
+        <rect x="40" y="36" width="40" height="10" rx="3" fill="#0F172A"/>
+        <rect x="120" y="32" width="60" height="18" rx="9" fill="#0F172A" opacity="0.92"/>
+        <rect x="220" y="36" width="40" height="10" rx="3" fill="#0F172A"/>
+        <!-- Appointment card -->
+        <rect x="28" y="80" width="244" height="120" rx="14" fill="#F0FDFA" stroke="#0D9488" stroke-width="2"/>
+        <rect x="48" y="100" width="120" height="10" rx="3" fill="#0F766E"/>
+        <rect x="48" y="124" width="180" height="16" rx="4" fill="#0F172A"/>
+        <rect x="48" y="148" width="140" height="10" rx="3" fill="#475569"/>
+        <rect x="48" y="170" width="200" height="22" rx="6" fill="#0F766E"/>
+        <!-- Today list card -->
+        <rect x="28" y="220" width="244" height="180" rx="14" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="2"/>
+        <rect x="48" y="240" width="160" height="12" rx="3" fill="#0F172A"/>
+        <circle cx="60" cy="280" r="9" fill="#0F766E"/>
+        <rect x="80" y="276" width="140" height="8" rx="3" fill="#475569"/>
+        <circle cx="60" cy="308" r="9" fill="none" stroke="#CBD5E1" stroke-width="2"/>
+        <rect x="80" y="304" width="140" height="8" rx="3" fill="#475569"/>
+        <circle cx="60" cy="336" r="9" fill="none" stroke="#CBD5E1" stroke-width="2"/>
+        <rect x="80" y="332" width="140" height="8" rx="3" fill="#475569"/>
+        <rect x="48" y="362" width="204" height="24" rx="6" fill="#0F766E"/>
+      </g>
+      <!-- Caption -->
+      <g font-family="Merriweather, Georgia, serif" font-weight="700" text-anchor="middle">
+        <text x="600" y="730" font-size="26" fill="#0F172A">Osteóplus · case study</text>
+        <text x="600" y="760" font-size="14" fill="#475569" font-weight="500" font-family="ui-sans-serif, system-ui, sans-serif">From medical repository to Action Dashboard</text>
+      </g>
+    </svg>
+  </template>
+</head>
+<body>
+  <div id="root"></div>
+
+  <!-- Data + components -->
+  <script type="text/babel" src="assets/data.jsx"></script>
+  <script type="text/babel" src="assets/phone-frame.jsx"></script>
+  <script type="text/babel" src="assets/mockups-1.jsx"></script>
+  <script type="text/babel" src="assets/mockups-2.jsx"></script>
+  <script type="text/babel" src="assets/sections-1.jsx"></script>
+  <script type="text/babel" src="assets/sections-2.jsx"></script>
+  <script type="text/babel" src="assets/sections-3.jsx"></script>
+  <script type="text/babel" src="assets/tweaks-panel.jsx"></script>
+  <script type="text/babel" src="assets/app.jsx"></script>
+</body>
+</html>

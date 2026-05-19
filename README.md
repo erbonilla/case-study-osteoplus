@@ -31,6 +31,15 @@ python3 scripts/build-standalone.py
 - `PUBLISH-READINESS.md` — QA status and remaining production steps
 - `00-source-inventory/` — design specs and publish guide
 
+## Deploy on Vercel (GitHub)
+
+1. Open [vercel.com/new](https://vercel.com/new) (signed in with GitHub).
+2. **Import** `erbonilla/case-study-osteoplus`.
+3. Leave framework preset as **Other** (static site). Root directory: `.` — no build command.
+4. Deploy. The site root `/` serves `Case Study - Osteóplus.html` via `vercel.json`.
+
+This is an **interim static preview** (in-browser Babel). For production SEO/performance, port to Next.js per `00-source-inventory/13-v2-to-production-publish-guide.md`.
+
 ## Author
 
 Edgar Bonilla G. — UI/UX Designer

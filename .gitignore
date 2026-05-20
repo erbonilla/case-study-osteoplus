@@ -6,3 +6,9 @@ Thumbs.db
 .vscode/
 .cursor/
 .lighthouse-report.json
+node_modules/
+.next/
+out/
+dist/
+.env*.local
+next-env.d.ts

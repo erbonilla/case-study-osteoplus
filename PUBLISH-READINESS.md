@@ -6,16 +6,22 @@ Last updated: 2026-05-20
 
 Live preview: https://case-study-osteoplus.vercel.app/
 
-Use `Case Study - Osteóplus.html` for local browser review. The project is still a static React/Babel bundle, not a Next.js production build.
+The repo now contains a Next.js production port. The live Vercel URL will switch from the static React/Babel preview to the compiled Next.js app after the production-port commit is pushed and Vercel redeploys.
 
-Primary publish-preview inputs:
+Primary production inputs:
+- `app/page.js`
+- `app/case-studies/osteoplus/page.js`
+- `app/_components/legacy-case-study.jsx`
+- `app/layout.js`
+- `app/globals.css`
+- `public/assets/`
+- `package.json`
+- `next.config.mjs`
+
+Preserved static-preview inputs:
 - `Case Study - Osteóplus.html`
-- `assets/app.jsx`
-- `assets/case-study.css`
-- `assets/colors_and_type.css`
-- `assets/sections-*.jsx`
-- `assets/mockups-*.jsx`
-- `assets/phone-frame.jsx`
+- `assets/*.jsx`
+- `assets/*.css`
 - `assets/logo-svg/`
 
 ## Completed
@@ -33,6 +39,11 @@ Primary publish-preview inputs:
 - Added `scripts/build-standalone.py` and regenerated `Case Study - Osteóplus (standalone).html` from the updated standalone source, including local assets and external JS libraries in the bundle.
 - Added deployed canonical URL, Open Graph URL, Twitter card metadata, and a 1200x630 social preview image.
 - Removed `.DS_Store` files from the repository working tree.
+- Started the Next.js production port with App Router routes for `/` and `/case-studies/osteoplus`.
+- Replaced runtime Lucide placeholder hydration with `lucide-react` in the production app.
+- Removed the static Vercel rewrite so Vercel can detect and build the Next.js app.
+- Mirrored publish assets under `public/assets/` for the production app.
+- Upgraded the production app to Next.js 16.2.6 / React 19.2.6 / lucide-react 1.16.0 and pinned PostCSS to the patched 8.5.10 line via npm overrides.
 
 ## Verified
 
@@ -56,9 +67,14 @@ Passing checks:
 - Deployed Vercel URL serves the expected HTML from `/`.
 - Deployed Vercel URL has no console errors, no horizontal overflow at audited breakpoints, persistent theme behavior, SVG favicon, Lucide rendering, and light/dark logo variants.
 - Lighthouse on deployed URL (2026-05-20): Performance 37, Accessibility 89, Best Practices 100, SEO 100. Low performance is expected for the in-browser Babel preview.
+- Local Next.js production build passes: `npm run build`.
+- Local Next.js production app passes browser verification at `390x844`, `768x1024`, `1024x768`, and `1440x900`.
+- Local Next.js verification confirms no Babel scripts, no React development scripts, no console errors, no horizontal overflow, persistent dark mode, canonical metadata, OG image metadata, and 260 rendered Lucide SVG icons with zero placeholders.
+- Local route verification passes for `/` and `/case-studies/osteoplus`.
+- `npm audit --omit=dev` reports zero vulnerabilities.
 
 Known console warning:
-- Browser reports the expected Babel standalone production warning. This is acceptable for the current preview and should be removed by the future precompiled/Next.js production build.
+- The preserved static preview reports the expected Babel standalone production warning. The local Next.js production build does not.
 
 ## Post-deploy checklist
 
@@ -96,16 +112,16 @@ npx lighthouse@12 "https://case-study-osteoplus.vercel.app/" \
   --view
 ```
 
-**Targets for this static Babel preview:**
+**Targets for the deployed Next.js production build:**
 
 | Category | Target | Notes |
 |----------|--------|--------|
 | SEO | 100 | Canonical, meta description, structured data |
 | Best Practices | ≥ 95 | HTTPS, no console errors |
 | Accessibility | ≥ 85 | Re-check after content edits |
-| Performance | ≥ 85 | **Not expected** until Next.js/precompiled build |
+| Performance | ≥ 85 | Re-check after Vercel deploys the Next.js build |
 
-**Last run (2026-05-20):** Performance 37 · Accessibility 89 · Best Practices 100 · SEO 100.  
+**Last deployed static-preview run (2026-05-20):** Performance 37 · Accessibility 89 · Best Practices 100 · SEO 100.  
 Main bottlenecks: render-blocking CDN scripts, in-browser Babel, dev React UMD bundles.
 
 Optional: run **axe DevTools** in the browser on the live URL after substantive UI changes.
@@ -126,16 +142,17 @@ Confirm the card shows the 1200×630 mockup (`osteoplus-case-study.png`), not a 
 
 ### 4. When to re-run this checklist
 
-- Push to `main` that changes HTML metadata, `assets/og/`, or `vercel.json`
+- Push to `main` that changes metadata, `public/assets/og/`, `assets/og/`, or production routing
 - Custom domain added (update canonical, `og:url`, and JSON-LD to the final domain, then re-scrape)
 - After `python3 scripts/build-standalone.py` if sharing the standalone file externally
 
 ## Remaining Before Public Production
 
 - Re-run `python3 scripts/build-standalone.py` after future edits to `Case Study - Osteóplus (standalone-source).html`, `assets/*.jsx`, `assets/*.css`, or `assets/logo-svg/*.svg`.
-- For public Vercel production, follow `00-source-inventory/13-v2-to-production-publish-guide.md` and precompile or port to Next.js.
-- Re-run Lighthouse/axe on the **Next.js** deployed URL; target Performance ≥ 85 per the production publish guide.
+- Push the Next.js production-port commit and confirm Vercel detects the Next.js framework preset.
+- Re-run Lighthouse/axe on the deployed Next.js URL; target Performance ≥ 85 per the production publish guide.
+- Progressive hardening: split `app/_components/legacy-case-study.jsx` into typed `_data`, server section components, and smaller client islands.
 
 ## Do Not Treat As Final
 
-- Any public deployment that still relies on in-browser Babel as the final production architecture.
+- Any public deployment that still routes `/` to `Case Study - Osteóplus.html` instead of the compiled Next.js app.

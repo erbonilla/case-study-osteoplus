@@ -1,10 +1,34 @@
 # case-study-osteoplus
 
-Static publish-preview bundle for the **Osteóplus** UX case study (*From medical repository to Action Dashboard*). React components load in-browser via Babel for local review; production deployment should precompile or port to Next.js per `00-source-inventory/13-v2-to-production-publish-guide.md`.
+Production Next.js port for the **Osteóplus** UX case study (*From medical repository to Action Dashboard*). The original static React/Babel preview is preserved for reference and standalone sharing.
 
 Live preview: [case-study-osteoplus.vercel.app](https://case-study-osteoplus.vercel.app/)
 
-## Local preview
+## Production app
+
+```sh
+cd case-study-osteoplus
+npm install
+npm run dev
+```
+
+Open [http://localhost:3000](http://localhost:3000).
+
+Production checks:
+
+```sh
+npm run build
+npm run start
+```
+
+Routes:
+
+| Route | Purpose |
+|------|---------|
+| `/` | Production case-study page |
+| `/case-studies/osteoplus` | Portfolio-style case-study route |
+
+## Static preview
 
 ```sh
 cd case-study-osteoplus
@@ -17,7 +41,10 @@ Open [http://localhost:8765/Case%20Study%20-%20Osteóplus.html](http://localhost
 
 | File | Purpose |
 |------|---------|
-| `Case Study - Osteóplus.html` | Development preview (loads `assets/`) |
+| `app/` | Next.js production app |
+| `public/assets/` | Assets served by the Next.js app |
+| `app/_components/legacy-case-study.jsx` | First production port of the current case-study UI, compiled by Next.js |
+| `Case Study - Osteóplus.html` | Preserved static preview (loads `assets/`) |
 | `Case Study - Osteóplus (standalone).html` | Single-file share artifact (regenerate after edits) |
 | `Case Study - Osteóplus-print.html` | Print layout |
 
@@ -37,10 +64,10 @@ python3 scripts/build-standalone.py
 
 1. Open [vercel.com/new](https://vercel.com/new) (signed in with GitHub).
 2. **Import** `erbonilla/case-study-osteoplus`.
-3. Leave framework preset as **Other** (static site). Root directory: `.` — no build command.
-4. Deploy. The site root `/` serves `Case Study - Osteóplus.html` via `vercel.json`.
+3. Use the detected **Next.js** framework preset. Root directory: `.`.
+4. Deploy. Vercel runs `npm run build`; the site root `/` serves the Next.js app.
 
-This is an **interim static preview** (in-browser Babel). For production SEO/performance, port to Next.js per `00-source-inventory/13-v2-to-production-publish-guide.md`.
+The static HTML files remain in the repo as preview/archive artifacts; production traffic should use the Next.js app.
 
 ## Author
 

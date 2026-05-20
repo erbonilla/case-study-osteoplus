@@ -4,6 +4,8 @@ Last updated: 2026-05-19
 
 ## Current Publish Preview
 
+Live preview: https://case-study-osteoplus.vercel.app/
+
 Use `Case Study - Osteóplus.html` for local browser review. The project is still a static React/Babel bundle, not a Next.js production build.
 
 Primary publish-preview inputs:
@@ -29,6 +31,8 @@ Primary publish-preview inputs:
 - Added production notes for the static React/Babel preview.
 - Synced active, print, and standalone-source HTML metadata basics.
 - Added `scripts/build-standalone.py` and regenerated `Case Study - Osteóplus (standalone).html` from the updated standalone source, including local assets and external JS libraries in the bundle.
+- Added deployed canonical URL, Open Graph URL, Twitter card metadata, and a 1200x630 social preview image.
+- Removed `.DS_Store` files from the repository working tree.
 
 ## Verified
 
@@ -49,6 +53,8 @@ Passing checks:
 - Skip-link focus outline is visible.
 - Reduced-motion and focus-visible CSS rules are present.
 - Generated standalone artifact renders with zero console errors in local browser verification.
+- Deployed Vercel URL serves the expected HTML from `/`.
+- Deployed Vercel URL has no console errors, no horizontal overflow at audited breakpoints, persistent theme behavior, SVG favicon, Lucide rendering, and light/dark logo variants.
 
 Known console warning:
 - Browser reports the expected Babel standalone production warning. This is acceptable for the current preview and should be removed by the future precompiled/Next.js production build.
@@ -57,7 +63,6 @@ Known console warning:
 
 - Re-run `python3 scripts/build-standalone.py` after future edits to `Case Study - Osteóplus (standalone-source).html`, `assets/*.jsx`, `assets/*.css`, or `assets/logo-svg/*.svg`.
 - For public Vercel production, follow `00-source-inventory/13-v2-to-production-publish-guide.md` and precompile or port to Next.js.
-- Add final public URL, canonical URL, and OG image URL once the deployment target is known.
 - Run Lighthouse/axe on the deployed URL after production build or deployment.
 
 ## Do Not Treat As Final

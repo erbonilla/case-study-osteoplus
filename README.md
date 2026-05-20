@@ -2,6 +2,8 @@
 
 Static publish-preview bundle for the **Osteóplus** UX case study (*From medical repository to Action Dashboard*). React components load in-browser via Babel for local review; production deployment should precompile or port to Next.js per `00-source-inventory/13-v2-to-production-publish-guide.md`.
 
+Live preview: [case-study-osteoplus.vercel.app](https://case-study-osteoplus.vercel.app/)
+
 ## Local preview
 
 ```sh

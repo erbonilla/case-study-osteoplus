@@ -1,6 +1,6 @@
 # Publish Readiness Status
 
-Last updated: 2026-05-19
+Last updated: 2026-05-20
 
 ## Current Publish Preview
 
@@ -55,15 +55,86 @@ Passing checks:
 - Generated standalone artifact renders with zero console errors in local browser verification.
 - Deployed Vercel URL serves the expected HTML from `/`.
 - Deployed Vercel URL has no console errors, no horizontal overflow at audited breakpoints, persistent theme behavior, SVG favicon, Lucide rendering, and light/dark logo variants.
+- Lighthouse on deployed URL (2026-05-20): Performance 37, Accessibility 89, Best Practices 100, SEO 100. Low performance is expected for the in-browser Babel preview.
 
 Known console warning:
 - Browser reports the expected Babel standalone production warning. This is acceptable for the current preview and should be removed by the future precompiled/Next.js production build.
+
+## Post-deploy checklist
+
+Run after each production deploy or metadata/asset change.
+
+### 1. Live URL and metadata
+
+**Production URL:** https://case-study-osteoplus.vercel.app/
+
+**OG image:** https://case-study-osteoplus.vercel.app/assets/og/osteoplus-case-study.png (1200×630 PNG)
+
+Confirm in page source (View Source or DevTools → Elements → `<head>`):
+
+| Tag | Expected value |
+|-----|----------------|
+| `link rel="canonical"` | `https://case-study-osteoplus.vercel.app/` |
+| `og:url` | `https://case-study-osteoplus.vercel.app/` |
+| `og:image` | `https://case-study-osteoplus.vercel.app/assets/og/osteoplus-case-study.png` |
+| `twitter:card` | `summary_large_image` |
+| `twitter:image` | same `og:image` URL |
+| JSON-LD `url` / `image` | same canonical and PNG URLs |
+
+Quick terminal check:
+
+```sh
+curl -sL "https://case-study-osteoplus.vercel.app/" | grep -E 'canonical|og:image|twitter:image'
+curl -sI "https://case-study-osteoplus.vercel.app/assets/og/osteoplus-case-study.png" | head -5
+```
+
+### 2. Lighthouse (deployed URL)
+
+```sh
+npx lighthouse@12 "https://case-study-osteoplus.vercel.app/" \
+  --only-categories=performance,accessibility,best-practices,seo \
+  --view
+```
+
+**Targets for this static Babel preview:**
+
+| Category | Target | Notes |
+|----------|--------|--------|
+| SEO | 100 | Canonical, meta description, structured data |
+| Best Practices | ≥ 95 | HTTPS, no console errors |
+| Accessibility | ≥ 85 | Re-check after content edits |
+| Performance | ≥ 85 | **Not expected** until Next.js/precompiled build |
+
+**Last run (2026-05-20):** Performance 37 · Accessibility 89 · Best Practices 100 · SEO 100.  
+Main bottlenecks: render-blocking CDN scripts, in-browser Babel, dev React UMD bundles.
+
+Optional: run **axe DevTools** in the browser on the live URL after substantive UI changes.
+
+### 3. Refresh social preview cache
+
+Platforms cache OG data. Re-scrape after deploys or when the preview image/title changes.
+
+| Platform | Tool | URL to paste |
+|----------|------|----------------|
+| Facebook | [Sharing Debugger](https://developers.facebook.com/tools/debug/) | `https://case-study-osteoplus.vercel.app/` |
+| LinkedIn | [Post Inspector](https://www.linkedin.com/post-inspector/) | same |
+| Twitter/X | [Card Validator](https://cards-dev.twitter.com/validator) | same |
+
+For each tool: paste the URL → run inspect/debug → **Scrape Again** (Facebook) if an old preview appears.
+
+Confirm the card shows the 1200×630 mockup (`osteoplus-case-study.png`), not a generic host placeholder.
+
+### 4. When to re-run this checklist
+
+- Push to `main` that changes HTML metadata, `assets/og/`, or `vercel.json`
+- Custom domain added (update canonical, `og:url`, and JSON-LD to the final domain, then re-scrape)
+- After `python3 scripts/build-standalone.py` if sharing the standalone file externally
 
 ## Remaining Before Public Production
 
 - Re-run `python3 scripts/build-standalone.py` after future edits to `Case Study - Osteóplus (standalone-source).html`, `assets/*.jsx`, `assets/*.css`, or `assets/logo-svg/*.svg`.
 - For public Vercel production, follow `00-source-inventory/13-v2-to-production-publish-guide.md` and precompile or port to Next.js.
-- Run Lighthouse/axe on the deployed URL after production build or deployment.
+- Re-run Lighthouse/axe on the **Next.js** deployed URL; target Performance ≥ 85 per the production publish guide.
 
 ## Do Not Treat As Final
 

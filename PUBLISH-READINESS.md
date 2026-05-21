@@ -8,6 +8,8 @@ Live preview: https://case-study-osteoplus.vercel.app/
 
 The live Vercel URL now serves the compiled Next.js production app.
 
+Launch checklist complete: the production URL, metadata, OG image, Twitter image, and manually refreshed Facebook/LinkedIn/Twitter social previews were verified on 2026-05-20. Use the Vercel URL for the first portfolio sharing round; analytics are intentionally deferred until after initial outreach.
+
 Primary production inputs:
 - `app/page.js`
 - `app/case-studies/osteoplus/page.js`
@@ -75,6 +77,7 @@ Passing checks:
 - Deployed Next.js URL serves `/_next/static` assets and no longer includes `@babel/standalone`, `react.development.js`, or `text/babel`.
 - Deployed Next.js browser QA passes at `390x844`, `768x1024`, `1024x768`, and `1440x900`.
 - Lighthouse on deployed Next.js URL (2026-05-20): Performance 93, Accessibility 89, Best Practices 96, SEO 100.
+- Facebook, LinkedIn, and Twitter/X social preview caches were manually refreshed and verified with the correct image and metadata.
 
 Known console warning:
 - The preserved static preview reports the expected Babel standalone production warning. The local Next.js production build does not.
@@ -150,11 +153,11 @@ Confirm the card shows the 1200×630 mockup (`osteoplus-case-study.png`), not a 
 - Custom domain added (update canonical, `og:url`, and JSON-LD to the final domain, then re-scrape)
 - After `python3 scripts/build-standalone.py` if sharing the standalone file externally
 
-## Remaining Before Public Production
+## Remaining After Launch Baseline
 
 - Re-run `python3 scripts/build-standalone.py` after future edits to `Case Study - Osteóplus (standalone-source).html`, `assets/*.jsx`, `assets/*.css`, or `assets/logo-svg/*.svg`.
-- Manually refresh Facebook, LinkedIn, and Twitter/X social preview caches after this Next.js deploy.
 - Run axe DevTools on the deployed Next.js URL after the next accessibility-focused pass.
+- Add privacy-friendly analytics after the first outreach cycle if traffic insight would help decide what to improve.
 - Progressive hardening: split `app/_components/legacy-case-study.jsx` into typed `_data`, server section components, and smaller client islands.
 
 ## Do Not Treat As Final

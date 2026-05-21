@@ -7,6 +7,14 @@ export const metadata = {
     "UX case study: a senior-friendly PWA for a Barcelona osteopathy and physiotherapy clinic. Guest-first booking, Daily Rehab Loop, WCAG 2.2 AA, bilingual ES/EN.",
   applicationName: "Osteóplus case study",
   authors: [{ name: "Edgar Bonilla G." }],
+  icons: {
+    icon: [
+      { url: "/favicon.ico", sizes: "any" },
+      { url: "/assets/logo-svg/favicon.svg", type: "image/svg+xml" },
+      { url: "/assets/favicon.svg", type: "image/svg+xml" },
+    ],
+    shortcut: "/favicon.ico",
+  },
   alternates: {
     canonical: "/",
   },

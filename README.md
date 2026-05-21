@@ -4,6 +4,8 @@ Production Next.js port for the **Osteóplus** UX case study (*From medical repo
 
 Live preview: [case-study-osteoplus.vercel.app](https://case-study-osteoplus.vercel.app/)
 
+Launch status: production baseline is live, social preview metadata has been manually refreshed, and the first outreach round can use the Vercel URL.
+
 ## Production app
 
 ```sh
@@ -58,6 +60,7 @@ python3 scripts/build-standalone.py
 
 - `AGENTS.md` — conventions for agents and contributors
 - `PUBLISH-READINESS.md` — QA status and remaining production steps
+- `PORTFOLIO-LAUNCH.md` — launch checklist, public post, DM/email templates, and outreach tracking rules
 - `00-source-inventory/` — design specs and publish guide
 
 ## Deploy on Vercel (GitHub)

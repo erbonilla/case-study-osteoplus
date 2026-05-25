@@ -221,6 +221,7 @@
   --brand-strong:   var(--teal-300);    /* text/brand-strong-dark      */
   --brand-ring:     rgba(94,234,212,0.32);
   --border-brand:   var(--teal-400);
+  --text-on-brand:  var(--teal-950);    /* #042F2E  high contrast on teal-300 */
 }
 
 /* ============================================================

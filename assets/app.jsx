@@ -28,19 +28,30 @@ function persistThemePreference(isDark) {
 }
 
 function TopChrome({ active, locale, setLocale, dark, setDark, progress }) {
+  const [menuOpen, setMenuOpen] = React.useState(false);
   const themeLabel = dark ? "Switch to light mode" : "Switch to dark mode";
+
+  React.useEffect(() => {
+    if (!menuOpen) return undefined;
+    const onKey = (e) => {
+      if (e.key === "Escape") setMenuOpen(false);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [menuOpen]);
+
   return (
     <header className="topbar">
       <div className="topbar-inner">
-        <a href="#hero" className="topbar-brand" aria-label="Osteóplus case study — back to top">
+        <a href="#hero" className="topbar-brand" aria-label="Osteóplus case study by Edgar Bonilla G. — back to top">
           <img
             src={(window.__resources && (dark ? window.__resources.logoTeal300 : window.__resources.logoTeal)) || (dark ? "assets/logo-svg/osteoplus-logo-teal-300.svg" : "assets/logo-svg/osteoplus-logo-primary-teal.svg")}
             alt=""
-            height="20"
+            height="32"
           />
-          <span className="topbar-brand-text">
-            <strong>Osteóplus</strong>
-            <span className="topbar-brand-sub">case study · Edgar Bonilla G.</span>
+          <span className="topbar-brand-meta">
+            <span className="topbar-brand-role">UX case study</span>
+            <span className="topbar-brand-author">Edgar Bonilla G.</span>
           </span>
         </a>
 
@@ -53,6 +64,17 @@ function TopChrome({ active, locale, setLocale, dark, setDark, progress }) {
         </nav>
 
         <div className="topbar-controls">
+          <button
+            type="button"
+            className={`sections-menu-trigger ${menuOpen ? "is-open" : ""}`}
+            onClick={() => setMenuOpen((open) => !open)}
+            aria-expanded={menuOpen}
+            aria-controls="topbar-section-menu"
+            title="Sections"
+          >
+            <Icon n={menuOpen ? "x" : "list"} s={16} sw={2.1} />
+            <span>Sections</span>
+          </button>
           <div className="seg" role="group" aria-label="Mockup locale">
             <button type="button" className={locale === "es" ? "on" : ""} onClick={() => setLocale("es")} aria-pressed={locale === "es"}>ES</button>
             <button type="button" className={locale === "en" ? "on" : ""} onClick={() => setLocale("en")} aria-pressed={locale === "en"}>EN</button>
@@ -60,33 +82,32 @@ function TopChrome({ active, locale, setLocale, dark, setDark, progress }) {
           <button type="button" className="icon-btn" onClick={() => setDark(!dark)} aria-label={themeLabel} title={themeLabel} aria-pressed={dark}>
             <Icon n={dark ? "sun" : "moon"} s={18} sw={1.75} />
           </button>
-          <a className="btn-mini" href="https://osteoplus-v2-9.vercel.app/es" target="_blank" rel="noreferrer">
+          <a className="btn-mini" href="https://osteoplus-v2-9.vercel.app/es" target="_blank" rel="noreferrer" aria-label="Open live product" title="Open live product">
             Live <Icon n="arrow-up-right" s={13} sw={2.4} />
           </a>
         </div>
       </div>
+      <nav
+        id="topbar-section-menu"
+        className={`topbar-menu ${menuOpen ? "is-open" : ""}`}
+        aria-label="Sections"
+      >
+        {window.OP_DATA.TOC.map((s, i) => (
+          <a
+            key={s.id}
+            href={`#${s.id}`}
+            className={active === s.id ? "is-active" : ""}
+            onClick={() => setMenuOpen(false)}
+          >
+            <span>{String(i + 1).padStart(2, "0")}</span>
+            {s.label}
+          </a>
+        ))}
+      </nav>
       <div className="topbar-progress" aria-hidden="true">
         <div className="topbar-progress-fill" style={{ transform: `scaleX(${progress})` }} />
       </div>
     </header>
-  );
-}
-
-function FloatingTOC({ active }) {
-  return (
-    <aside className="floating-toc" aria-label="Section nav">
-      <div className="floating-toc-label">Sections</div>
-      <ul>
-        {window.OP_DATA.TOC.map((s, i) => (
-          <li key={s.id} className={active === s.id ? "is-active" : ""}>
-            <a href={`#${s.id}`}>
-              <span className="toc-num">{String(i + 1).padStart(2, "0")}</span>
-              <span className="toc-label">{s.label}</span>
-            </a>
-          </li>
-        ))}
-      </ul>
-    </aside>
   );
 }
 
@@ -247,7 +268,6 @@ function App() {
         </span>
       </div>
       <TopChrome active={active} locale={locale} setLocale={setLocale} dark={dark} setDark={setDark} progress={progress} />
-      <FloatingTOC active={active} />
       <main id="main">
         <Hero locale={locale} dark={dark} tweaks={tweaks} />
         <TLDR />
